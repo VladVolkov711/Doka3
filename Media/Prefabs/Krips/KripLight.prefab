@@ -84,6 +84,81 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &291666077136856506
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8669490737279822846}
+  - component: {fileID: 7410081003986216956}
+  - component: {fileID: 6260296920769810008}
+  m_Layer: 7
+  m_Name: RedHealth
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &8669490737279822846
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 291666077136856506}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3317507150561371087}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -0.000000059605, y: 0.0149}
+  m_SizeDelta: {x: 1.6273, y: 0.1692}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &7410081003986216956
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 291666077136856506}
+  m_CullTransparentMesh: 1
+--- !u!114 &6260296920769810008
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 291666077136856506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.8396226, g: 0.18614274, b: 0.18614274, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 3
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 0
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &1058324110353427029
 GameObject:
   m_ObjectHideFlags: 0
@@ -260,7 +335,7 @@ GameObject:
   - component: {fileID: 3317507150182194848}
   - component: {fileID: 3317507150182194855}
   m_Layer: 7
-  m_Name: FrontHealth
+  m_Name: OrangeHealth
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -306,7 +381,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.8396226, g: 0.18614274, b: 0.18614274, a: 1}
+  m_Color: {r: 1, g: 0.8156863, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -334,6 +409,7 @@ GameObject:
   - component: {fileID: 3317507150561371087}
   - component: {fileID: 3317507150561371081}
   - component: {fileID: 3317507150561371080}
+  - component: {fileID: 1505652511482178618}
   m_Layer: 7
   m_Name: BackHealth
   m_TagString: Untagged
@@ -353,6 +429,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3317507150182194849}
+  - {fileID: 8669490737279822846}
   m_Father: {fileID: 3317507151729958371}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -399,6 +476,21 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1505652511482178618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3317507150561371086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8573656ac9cd20c459165473fda25ca2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _red: {fileID: 6260296920769810008}
+  _orange: {fileID: 3317507150182194855}
+  _health: {fileID: 304387562328541812}
 --- !u!1 &3317507151016718407
 GameObject:
   m_ObjectHideFlags: 0
@@ -522,7 +614,11 @@ GameObject:
   - component: {fileID: 3317507151427489797}
   - component: {fileID: 3317507151427490811}
   - component: {fileID: 3317507151427490810}
-  - component: {fileID: 3317507151427490809}
+  - component: {fileID: 96346187912925101}
+  - component: {fileID: 304387562328541812}
+  - component: {fileID: 7682433160514505603}
+  - component: {fileID: 6406214207347876067}
+  - component: {fileID: 5294512249705366121}
   m_Layer: 7
   m_Name: KripLight
   m_TagString: LightKrip
@@ -558,7 +654,7 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -572,20 +668,39 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3317507151427490808}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_Mass: 30
+  m_LinearDrag: 3
+  m_AngularDrag: 6
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &3317507151427490809
+--- !u!95 &96346187912925101
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3317507151427490808}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 37287032937db6c40af5e2134f9a0ef7, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &304387562328541812
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -594,30 +709,71 @@ MonoBehaviour:
   m_GameObject: {fileID: 3317507151427490808}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff7ca9d297bee0b48bde1f1382af8a88, type: 3}
+  m_Script: {fileID: 11500000, guid: c9af306cb69aae046bcf423268c1d4f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Health: 0
-  _imgHealth: {fileID: 3317507150182194855}
-  _moneyAnim: {fileID: 0}
-  _path:
-  - {fileID: 0}
+  _creature: 0
+  IsDie: 0
+  _healthFillAmount: {fileID: 1505652511482178618}
   _life: {fileID: 52317903265412487}
   _dead: {fileID: 9173525803495426906}
-  VisibleDamage: {fileID: 0}
+  _health: 0
+  _maxHealth: 100
+--- !u!114 &7682433160514505603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3317507151427490808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee7b4a0d127183442ac12160a5140d8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Damage: 10
+  _bullet: {fileID: 0}
+  _isLongDamage: 0
+--- !u!114 &6406214207347876067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3317507151427490808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 680cad68524bc904881c113cc8d66b8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _path: []
+  _childPath: []
+  _chieldPathCount: 0
+  _currentPath: 0
+  _pathName: PathBottom
+--- !u!114 &5294512249705366121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3317507151427490808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffbd54fdbf0541d46a43eb2650172b47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _searchPath: {fileID: 6406214207347876067}
+  _damageble: {fileID: 7682433160514505603}
+  _health: {fileID: 304387562328541812}
   _visiblePosition: {fileID: 3317507151016718400}
   _visibleRange: 3
   _speed: 0.05
   _stopedDistance: 1
-  IsDie: 0
   _layerMask:
     serializedVersion: 2
     m_Bits: 320
-  _target: []
   _targetForMove: {fileID: 0}
-  _isAtack: 0
-  _isFind: 1
-  _isLongAttack: 0
   MoneyForKrip: 0
 --- !u!1 &3317507151729958370
 GameObject:

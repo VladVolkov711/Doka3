@@ -4,25 +4,24 @@ using UnityEngine.UI;
 
 public class ButtonReload : MonoBehaviour
 {
-    public float _maxTimer;
+    public float MaxTimer;
+    public float Timer;
 
     [SerializeField] private Button _buttonTake;
     [SerializeField] private Image _imageReload;
     [SerializeField] private float _timeCourotine;
 
-    public float _timer;
-
     public IEnumerator ReloadButton()
     {
         _buttonTake.enabled = false;
-        _timer = _maxTimer;
+        Timer = MaxTimer;
         while (true)
         {
             yield return new WaitForSeconds(_timeCourotine);
-            if(_timer > 0)
+            if(Timer > 0)
             {
-                _timer -= _timeCourotine;
-                _imageReload.fillAmount = _timer / _maxTimer;
+                Timer -= _timeCourotine;
+                _imageReload.fillAmount = Timer / MaxTimer;
             }
             else
             {

@@ -580,6 +580,7 @@ GameObject:
   - component: {fileID: 4528668795943461280}
   - component: {fileID: 4528668795943461286}
   - component: {fileID: 4528668795943461287}
+  - component: {fileID: 7669325741102917953}
   m_Layer: 6
   m_Name: BackHealth
   m_TagString: Untagged
@@ -599,6 +600,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4528668796272204082}
+  - {fileID: 5813790256109010712}
   m_Father: {fileID: 4528668795610244389}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -645,6 +647,21 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7669325741102917953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4528668795943461281}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8573656ac9cd20c459165473fda25ca2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _red: {fileID: 7512381298188967186}
+  _orange: {fileID: 4528668796272204076}
+  _health: {fileID: 1085862808546699109}
 --- !u!1 &4528668796170669511
 GameObject:
   m_ObjectHideFlags: 0
@@ -739,7 +756,7 @@ GameObject:
   - component: {fileID: 4528668796272204083}
   - component: {fileID: 4528668796272204076}
   m_Layer: 6
-  m_Name: FrontHealth
+  m_Name: OrangeHealth
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -785,7 +802,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.8396226, g: 0.18614274, b: 0.18614274, a: 1}
+  m_Color: {r: 1, g: 0.8156863, b: 0, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -813,7 +830,12 @@ GameObject:
   - component: {fileID: 4528668796467827918}
   - component: {fileID: 4528668796467827917}
   - component: {fileID: 4528668796467827916}
-  - component: {fileID: 4528668796467827912}
+  - component: {fileID: 1919117108313529575}
+  - component: {fileID: 1085862808546699109}
+  - component: {fileID: 1267370749419834134}
+  - component: {fileID: 8982323219675561497}
+  - component: {fileID: 9057581478310796427}
+  - component: {fileID: 4817792762449572060}
   m_Layer: 6
   m_Name: KripDark
   m_TagString: DarkKrip
@@ -851,7 +873,7 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -865,20 +887,39 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4528668796467827913}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_Mass: 30
+  m_LinearDrag: 3
+  m_AngularDrag: 6
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &4528668796467827912
+--- !u!95 &1919117108313529575
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4528668796467827913}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 37287032937db6c40af5e2134f9a0ef7, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1085862808546699109
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -887,31 +928,86 @@ MonoBehaviour:
   m_GameObject: {fileID: 4528668796467827913}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ebe554c70ae278248a41fe321c1c0265, type: 3}
+  m_Script: {fileID: 11500000, guid: c9af306cb69aae046bcf423268c1d4f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Health: 100
-  _imgHealth: {fileID: 4528668796272204076}
-  _moneyAnim: {fileID: 5024355305859651579}
-  _path:
-  - {fileID: 0}
+  _creature: 0
+  IsDie: 0
+  _healthFillAmount: {fileID: 7669325741102917953}
   _life: {fileID: 4372803097533147731}
   _dead: {fileID: 1033788343821477812}
-  VisibleDamage: {fileID: 3778723075744517653}
+  _health: 0
+  _maxHealth: 100
+--- !u!114 &1267370749419834134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4528668796467827913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee7b4a0d127183442ac12160a5140d8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Damage: 10
+  _bullet: {fileID: 0}
+  _isLongDamage: 0
+--- !u!114 &8982323219675561497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4528668796467827913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 680cad68524bc904881c113cc8d66b8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _path: []
+  _childPath: []
+  _chieldPathCount: 0
+  _currentPath: 0
+  _pathName: PathTop
+--- !u!114 &9057581478310796427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4528668796467827913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffbd54fdbf0541d46a43eb2650172b47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _moneyAnim: {fileID: 5024355305859651579}
+  _searchPath: {fileID: 8982323219675561497}
+  _damageble: {fileID: 1267370749419834134}
+  _health: {fileID: 1085862808546699109}
   _visiblePosition: {fileID: 4528668797303346212}
   _visibleRange: 3
   _speed: 0.05
   _stopedDistance: 1
-  IsDie: 0
   _layerMask:
     serializedVersion: 2
-    m_Bits: 392
-  _target: []
+    m_Bits: 648
   _targetForMove: {fileID: 0}
-  _isAtack: 0
-  _isFind: 1
-  _isLongAttack: 0
   MoneyForKrip: 12
+--- !u!114 &4817792762449572060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4528668796467827913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3427d92994ca3d04a9f9bd054d165023, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  VisDamage: {fileID: 3778723075744517653}
 --- !u!1 &4528668796593477995
 GameObject:
   m_ObjectHideFlags: 0
@@ -1106,6 +1202,81 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &7723893062321971062
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5813790256109010712}
+  - component: {fileID: 820343728401148403}
+  - component: {fileID: 7512381298188967186}
+  m_Layer: 6
+  m_Name: RedHealth
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &5813790256109010712
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7723893062321971062}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4528668795943461280}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -0.000000059605, y: 0.0149}
+  m_SizeDelta: {x: 1.6273, y: 0.1692}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &820343728401148403
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7723893062321971062}
+  m_CullTransparentMesh: 1
+--- !u!114 &7512381298188967186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7723893062321971062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.8396226, g: 0.18614274, b: 0.18614274, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 3
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 0
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &7725508305211243682
 GameObject:
   m_ObjectHideFlags: 0
@@ -1198,6 +1369,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7576990778963336614}
   - component: {fileID: 5024355305859651579}
+  - component: {fileID: 8836171727823900545}
   m_Layer: 6
   m_Name: MoneySystem
   m_TagString: Untagged
@@ -1232,9 +1404,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MoneyText: {fileID: 7578809450501135677}
+  _health: {fileID: 1085862808546699109}
+  _moneyForEnemy: {fileID: 8836171727823900545}
   _money: {fileID: 4434012137760724863}
   _speed: 0.05
-  IsStartAnim: 0
+  _time: 0
+--- !u!114 &8836171727823900545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8459009280244564926}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c30834db8587f946882d161a297dc60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GiveMoneyForPlayer: 12
 --- !u!1 &8482525054015247156
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
-    public float _damage;
+    [SerializeField] private PlayerController _playerController;
+    [SerializeField] private Damageble _damageble;
 
     // маска для оптимизации поиска цели
     [SerializeField] private LayerMask _layerMask;
@@ -11,122 +12,83 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private Transform _visiblePosition;
     [SerializeField] private float _radius;
 
-    // массив с найдеными целями и записаная цель
-    [SerializeField] private Collider2D[] _targets;
-    [SerializeField] private Collider2D _targetforDamage;
-
     [SerializeField] private ButtonReload _buttonReload;
 
-    private bool _isFinde = true;
+    [SerializeField] private float _stamine;
+
+    // массив с найдеными целями и записаная цель
+    private Collider2D[] _buffer = new Collider2D[10];
+    private Transform _targetforDamage;
+    private int _bufferIndex = 0;
+
+    // компоненты объекта для оптимизации
+    private VisibleDamage _visibleDamage;
+    private Health _health;
+
     private float _distance;
+
+    private void Start()
+    {
+        //_stamine = _buttonReload.MaxTimer;
+        _playerController.Anim.SetFloat("Attack", _stamine);
+    }
 
     private void FixedUpdate()
     {
-        _targets = Physics2D.OverlapCircleAll(_visiblePosition.position, _radius, _layerMask);
-        if (_isFinde == true) FindeTarget();
-        if(_targetforDamage != null) _distance = Vector2.Distance(_targetforDamage.transform.position, transform.position);
+        _bufferIndex = Physics2D.OverlapCircleNonAlloc(_visiblePosition.position, _radius, _buffer, _layerMask);
 
-        if (_distance > 2 && _isFinde == false)
+        if(_bufferIndex > 0 && _targetforDamage == null) FindeTarget();
+        if (_bufferIndex == 0) _targetforDamage = null;
+
+        if(_targetforDamage != null)
         {
-            if(_targetforDamage != null)
-            {
-                if (_targetforDamage.GetComponent<DarkKrip>())
-                    _targetforDamage.GetComponent<DarkKrip>().VisibleDamage.SetActive(false);
+            _distance = Vector2.Distance(_targetforDamage.transform.position, transform.position);
 
-                if (_targetforDamage.GetComponent<DarkLongkrip>())
-                    _targetforDamage.GetComponent<DarkLongkrip>().VisibleDamage.SetActive(false);
+            if (_distance > 3)
+            {
+                _visibleDamage.VisDamage.SetActive(false);
+                _targetforDamage = null;
             }
 
-            _targetforDamage = null;
-            _isFinde = true;
+            else _visibleDamage.VisDamage.SetActive(true);
         }
 
-        else
-        {
-            if(_targetforDamage != null)
-            {
-                if (_targetforDamage.GetComponent<DarkKrip>())
-                    _targetforDamage.GetComponent<DarkKrip>().VisibleDamage.SetActive(true);
-
-                if (_targetforDamage.GetComponent<DarkLongkrip>())
-                    _targetforDamage.GetComponent<DarkLongkrip>().VisibleDamage.SetActive(true);
-            }
-        }
     }
 
-    public void FindeTarget()
+    private void FindeTarget()
     {
-        foreach (Collider2D target in _targets)
+        for (int i = 0; i < _bufferIndex; i++)
         {
-            if (target.name == "TowerDark") _targetforDamage = target;
-
-            if (target.name == "TronDark") _targetforDamage = target;
-
-            if (target.GetComponent<DarkKrip>()) _targetforDamage = target;
-
-            if (target.GetComponent<DarkLongkrip>()) _targetforDamage = target;
-
-            if (_targetforDamage != null) _isFinde = false;
+            if (_buffer[i].GetComponent<Health>())
+            {
+                _targetforDamage = _buffer[i].transform;
+                TackeComponent();
+            }
         }
     }
 
     public void Attack()
     {
-        if(_targetforDamage != null)
-        {
-            if (_targetforDamage.GetComponent<DarkKrip>())
-            {
-                if (_targetforDamage.GetComponent<DarkKrip>().Health <= 0)
-                {
-                    _targetforDamage.GetComponent<DarkKrip>().VisibleDamage.SetActive(false);
-                    _targetforDamage.GetComponent<DarkKrip>().TakeGold();
-                    _targetforDamage.GetComponent<DarkKrip>().IsDie = true;
-                    _targetforDamage = null;
-                    _isFinde = true;
-                    return;
-                }
-                else _targetforDamage.GetComponent<DarkKrip>().TakeDamage(_damage);
-            }
+        if (_targetforDamage == null) return;
 
-            if (_targetforDamage.GetComponent<DarkLongkrip>())
-            {
-                if (_targetforDamage.GetComponent<DarkLongkrip>().Health <= 0)
-                {
-                    _targetforDamage.GetComponent<DarkLongkrip>().VisibleDamage.SetActive(false);
-                    _targetforDamage.GetComponent<DarkLongkrip>().TakeGold();
-                    _targetforDamage.GetComponent<DarkLongkrip>().IsDie = true;
-                    _targetforDamage = null;
-                    _isFinde = true;
-                    return;
-                }
-                else _targetforDamage.GetComponent<DarkLongkrip>().TakeDamage(_damage);
-            }
-
-            if (_targetforDamage.GetComponent<TowerDark>())
-            {
-                if (_targetforDamage.GetComponent<TowerDark>().Health <= 0)
-                {
-                    _targetforDamage.GetComponent<TowerDark>().IsDie = true;
-                    _targetforDamage = null;
-                    _isFinde = true;
-                    return;
-                }
-                else _targetforDamage.GetComponent<TowerDark>().TakeDamage(_damage);
-            }
-
-            if (_targetforDamage.name == "TronDark")
-            {
-                if (_targetforDamage.GetComponent<Trone>().Health <= 0)
-                {
-                    _targetforDamage.GetComponent<Trone>().IsDie = true;
-                    _targetforDamage = null;
-                    _isFinde = true;
-                    return;
-                }
-                else _targetforDamage.GetComponent<Trone>().TakeDamage(_damage);
-            }
-        }
+        _playerController.Anim.Play("Attack");
         StartCoroutine(_buttonReload.ReloadButton());
+        _damageble.TakeDamage(_targetforDamage);
+
+        if (_targetforDamage.GetComponent<Enemy>()) 
+            _targetforDamage.GetComponent<Enemy>()._moneyAnim._isAttackPlayer = true;
+
+        if (_health.IsDie == true) // проверить бъет ли игрок башню !!! ВАЖНО !!!
+        {
+            _targetforDamage = null;
+            return;
+        }
+    }
+
+    private void TackeComponent()
+    {
+        _visibleDamage = _targetforDamage.GetComponent<VisibleDamage>();
+        _health = _targetforDamage.GetComponent<Health>();
     }
 
     private void OnDrawGizmosSelected()

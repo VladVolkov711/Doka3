@@ -1,120 +1,89 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
 {
-    public float Health;
-
-    [SerializeField] protected Image _imgHealth;
-    [SerializeField] protected MoneyAnim _moneyAnim;
-
-    // радительский объект пути
-    [SerializeField] protected GameObject[] _path;
-
-    // состояния врага
-    [SerializeField] private GameObject _life;
-    [SerializeField] private GameObject _dead;
-    public GameObject VisibleDamage;
+    public MoneyAnim _moneyAnim;
+    [SerializeField] private SearchPath _searchPath; // поиск пути
+    [SerializeField] private Damageble _damageble; // нанесение урона
+    [SerializeField] private Health _health; // хп
 
     // отображение радара для поиска
-    [SerializeField] protected Transform _visiblePosition;
-    [SerializeField] protected float _visibleRange;
+    [SerializeField] private Transform _visiblePosition;
+    [SerializeField] private float _visibleRange;
 
-    [SerializeField] protected float _speed;
-    [SerializeField] protected float _stopedDistance;
+    [SerializeField] private float _speed;
+    [SerializeField] private float _stopedDistance;
 
-    public bool IsDie;
-    [SerializeField] protected LayerMask _layerMask;
+    //public bool IsDie;
+    [SerializeField] private LayerMask _layerMask;
 
     // цель для движения
-    [SerializeField] protected Collider2D[] _target;
-    [SerializeField] protected Transform _targetForMove;
+    [SerializeField] private Transform _targetForMove;
 
-    protected Collider2D _enemyCollider;
+    // атака врага
+    private bool _isAtack;
 
-    // хешируем трансформ игрока
-    protected Transform _playerTR;
-
-    // массив точек для пути и текущая точка
-    protected Transform[] _childPath;
-    protected int _chieldPathCount;
-    protected int _currentPath;
-
-    protected float DamageGive;
-    protected float MaxHealth;
+    // хешируем трансформ врага
+    private Transform _enemyTR;
 
     // вычисление дистанции
-    protected float _distance;
+    private float _distance;
 
-    // поиск врага, атака врага, является ли враг дальнобойным
-    [SerializeField] protected bool _isAtack;
-    [SerializeField] protected bool _isFind = true;
-    [SerializeField] protected bool _isLongAttack;
+    // буфер, максимальное число для найденых объектов
+    private Collider2D[] _buffer = new Collider2D[5];
+    private int _bufferIndex = 0;
 
-    protected Rigidbody2D _rb;
+    // компоненты моба
+    private Rigidbody2D _rb;
+    private Collider2D _collider2D;
+    private Animator _anim;
+
     public int MoneyForKrip;
 
-    // подумай нужен ли isDie т.к можно проверять на наличие хп, так работает без атказно
+    private void Start() => StartComponent();
+
     private void FixedUpdate()
     {
-        _life.SetActive(IsDie == false);
-        _dead.SetActive(IsDie == true);
-
-        if(Health < 0) _enemyCollider.enabled = false;
-
-        if (IsDie == true)
+        if (_health.IsDie == true)
         {
-            _isAtack = false;
-            _isFind = false;
-            Destroy(gameObject, 1);
+            StopAllCoroutines();
+            _collider2D.enabled = false;
+            _visibleRange = 0;
             return;
         }
 
-        _target = Physics2D.OverlapCircleAll(_visiblePosition.position, _visibleRange, _layerMask);
-        if (_isFind == true) FindeTarget();
+        _bufferIndex = Physics2D.OverlapCircleNonAlloc(_visiblePosition.position, _visibleRange, _buffer, _layerMask);
+
+        if (_bufferIndex > 0) _targetForMove = _buffer[0].transform;
+        else if(_bufferIndex == 0) _targetForMove = null;
 
         Move();
     }
 
-    public virtual void Move()
+    public void Move()
     {
         if (_targetForMove != null)
         {
-            _distance = Vector2.Distance(_targetForMove.position, _playerTR.position);
-            _playerTR.up = _targetForMove.position - _playerTR.position;
+            _distance = Vector2.Distance(_targetForMove.position, _enemyTR.position);
+            _enemyTR.up = _targetForMove.position - _enemyTR.position;
 
             if (_distance < _stopedDistance && _isAtack == false) StartCoroutine(GiveDamage());
 
             if (_distance > _stopedDistance)
-                _playerTR.position = Vector3.MoveTowards(_playerTR.position, _targetForMove.position, _speed);
+                _enemyTR.position = Vector3.MoveTowards(_enemyTR.position, _targetForMove.position, _speed);
         }
         else
         {
-            var target = _childPath[_chieldPathCount];
-            _playerTR.position = Vector3.MoveTowards(_playerTR.position, target.position, _speed);
-            _playerTR.up = target.position - _playerTR.position;
+            //_anim.Play("WalKKripDark");
+            var target = _searchPath._childPath[_searchPath._chieldPathCount];
+            _enemyTR.position = Vector3.MoveTowards(_enemyTR.position, target.position, _speed);
+            _enemyTR.up = target.position - _enemyTR.position;
 
-            if (_playerTR.position == target.position)
+            if (_enemyTR.position == target.position)
             {
-                _chieldPathCount++;
-                if (_chieldPathCount >= _path[_currentPath].transform.childCount) Destroy(gameObject);
-            }
-        }
-    }
-
-    public virtual void FindeTarget()
-    {
-        foreach (Collider2D item in _target)
-        {
-            if (item.name == "TowerLight" ||
-            item.name == "TronLight" ||
-            item.GetComponent<LightKrip>() ||
-            item.GetComponent<LightLongKrip>() ||
-            item.name == "Player")
-            {
-                _targetForMove = item.transform;
-                _isFind = false;
+                _searchPath._chieldPathCount++;
+                if (_searchPath._chieldPathCount >= _searchPath._path[_searchPath._currentPath].transform.childCount) Destroy(gameObject);
             }
         }
     }
@@ -127,102 +96,24 @@ public class Enemy : MonoBehaviour
             yield return new WaitForSeconds(1);
             if(_targetForMove == null)
             {
-                _isFind = true;
                 _isAtack = false;
                 yield break;
             }
-            else GiveDamageKrip();
-        }
-    }
-
-    public virtual void GiveDamageKrip()
-    {
-        if (_targetForMove.GetComponent<LightKrip>())
-        {
-            if (_targetForMove.GetComponent<LightKrip>().Health > 0)
-                _targetForMove.GetComponent<LightKrip>().TakeDamage(DamageGive);
-
             else
             {
-                _targetForMove.GetComponent<LightKrip>().IsDie = true;
-                _targetForMove = null;
-                return;
+                //_anim.Play("AttackKripDark");
+                if (_targetForMove.GetComponent<Health>()._health <= 0) _targetForMove = null;
+                else _damageble.TakeDamage(_targetForMove);
             }
         }
-
-        if (_targetForMove.GetComponent<LightLongKrip>())
-        {
-            if (_targetForMove.GetComponent<LightLongKrip>().Health > 0)
-                _targetForMove.GetComponent<LightLongKrip>().TakeDamage(DamageGive);
-
-            else
-            {
-                _targetForMove.GetComponent<LightLongKrip>().IsDie = true;
-                _targetForMove = null;
-                return;
-            }
-        }
-
-        if (_targetForMove.GetComponent<TowerLight>())
-        {
-            if (_targetForMove.GetComponent<TowerLight>().Health > 0)
-                _targetForMove.GetComponent<TowerLight>().TakeDamage(DamageGive);
-
-            else
-            {
-                _targetForMove.GetComponent<TowerLight>().IsDie = true;
-                _targetForMove = null;
-                return;
-            }
-        }
-
-        if (_targetForMove.GetComponent<Trone>())
-        {
-            if (_targetForMove.GetComponent<Trone>().Health > 0)
-                _targetForMove.GetComponent<Trone>().TakeDamage(DamageGive);
-
-            else
-            {
-                _targetForMove.GetComponent<Trone>().IsDie = true;
-                _targetForMove = null;
-                return;
-            }
-        }
-
-    }
-
-    public virtual void TakeDamage(float damage)
-    {
-        if(Health > 0)
-        {
-            Health -= damage;
-            _imgHealth.fillAmount = Health / MaxHealth;
-        }
-    }
-
-    public void TakeGold()
-    {
-        _moneyAnim.MoneyText.text = MoneyForKrip.ToString();
-        GetMoney.instance.WorldMoney += MoneyForKrip;
-        GetMoney.instance.GetTextUI();
-        _moneyAnim.IsStartAnim = true;
     }
 
     protected void StartComponent()
     {
         _rb = GetComponent<Rigidbody2D>();
-        _playerTR = GetComponent<Transform>();
-        _enemyCollider = GetComponent<Collider2D>();
-    }
-
-    protected void StartPath()
-    {
-        _path = GameObject.FindGameObjectsWithTag("PathBottom");
-        _currentPath = Random.Range(0, _path.Length);
-
-        _childPath = new Transform[_path[_currentPath].transform.childCount];
-
-        for (int i = 0; i < _path[_currentPath].transform.childCount; i++) _childPath[i] = _path[_currentPath].transform.GetChild(i);
+        _collider2D = GetComponent<Collider2D>();
+        //_anim = GetComponent<Animator>();
+        _enemyTR = GetComponent<Transform>();
     }
 
     private void OnDrawGizmosSelected()
